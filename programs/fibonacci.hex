@@ -232,5 +232,5 @@ abe10000
 # 0x0130: sb   $t0, 0($t3)              # Print '0 + digit'
 b6910000 
 
-# 0x0134: jr   $ra                      # Return to Caller                   # Return to Caller
+# 0x0134: jr   $ra                      # Return to Caller
 f000f000 
