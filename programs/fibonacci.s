@@ -86,9 +86,8 @@ print_decimal_number:
 
 else_print: 
   # Sets up and loads the stack
-  addi $sp, $sp, -4             # Allocate space in the stack
-  sw   $a0, 0($sp)              # Storing $a0 to the stack
-  sw   $ra, 2($sp)              # Storing the original return address to the stack
+  push  $a0                     # Storing $a0 to the stack
+  push  $ra                     # Storing the original return address to the stack
 
   # Sets up $a1 as a parameter for remainder and then calls remainder, storing the result in $s1
   li   $a1, 10                  # $a1 = 10
@@ -96,18 +95,16 @@ else_print:
   add  $s1, $zero, $v0          # int digit = n % 10
 
   # Retrieves information from the stack and deallocates the space
-  lw   $a0, 0($sp)              # Loading $a0 from the stack
-  lw   $ra, 2($sp)              # Loading the original return address from the stack
-  addi $sp, $sp, 4              # Deallocate space in the stack
+  pop   $ra                     # Loading $a0 from the stack
+  pop   $a0                     # Loading the original return address from the stack
 
   # Set up to check if n > digit 
   sub  $t2, $s1, $a0            # $t2 = digit - n
   slt  $t2, $t2, $zero          # Checks if $t2 < 0
 
   # Set up the stack and parameters for quotient. Call quotient.
-  addi $sp, $sp, -4             # Allocate space in the stack
-  sw   $s1, 0($sp)              # Storing the 'digit' to the stack
-  sw   $ra, 2($sp)              # Storing the original return address to the stack
+  push $s1                      # Storing the 'digit' to the stack
+  push $ra                      # Storing the original return address to the stack
   li   $a1, 10                  # $a1 = 10
 
   # Check if n > digit and branch to 'exit_print' if false
@@ -120,9 +117,8 @@ else_print:
 
 
 exit_print:
-  lw   $ra, 2($sp)              # Loading the original return address from the stack
-  lw   $s1, 0($sp)              # Loading $s1 from the stack
-  addi $sp, $sp, 4              # Deallocate space in the stack
+  pop  $ra                      # Loading the original return address from the stack
+  pop  $s1                      # Loading $s1 from the stack
   addi $t0, $s1, 0x30           # $t0 = 0 + digit
   sb   $t0, 0($t3)              # Print '0 + digit'
   jr   $ra                      # Return to Caller

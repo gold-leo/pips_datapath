@@ -160,77 +160,65 @@ b6910000
 # 0x00d0: jr   $ra
 f000f000 
 
-# 0x00d4: addi $sp, $sp, -4             # Allocate space in the stack
-0ee1fffc 
+# 0x00d4: push  $a0                     # Storing $a0 to the stack
+0ee1fffe c2e10000 
 
-# 0x00d8: sw   $a0, 0($sp)              # Storing $a0 to the stack
-c2e10000 
+# 0x00dc: push  $ra                     # Storing the original return address to the stack
+0ee1fffe cfe10000 
 
-# 0x00dc: sw   $ra, 2($sp)              # Storing the original return address to the stack
-cfe10002 
-
-# 0x00e0: li   $a1, 10                  # $a1 = 10
+# 0x00e4: li   $a1, 10                  # $a1 = 10
 0301000a 
 
-# 0x00e4: jal  remainder                # Call remainder to calculate the remainder between n and 10
+# 0x00e8: jal  remainder                # Call remainder to calculate the remainder between n and 10
 ff030080 
 
-# 0x00e8: add  $s1, $zero, $v0          # int digit = n % 10
+# 0x00ec: add  $s1, $zero, $v0          # int digit = n % 10
 0b001000 
 
-# 0x00ec: lw   $a0, 0($sp)              # Loading $a0 from the stack
-a2e10000 
+# 0x00f0: pop   $ra                     # Loading $a0 from the stack
+afe10000 0ee10002 
 
-# 0x00f0: lw   $ra, 2($sp)              # Loading the original return address from the stack
-afe10002 
+# 0x00f8: pop   $a0                     # Loading the original return address from the stack
+a2e10000 0ee10002 
 
-# 0x00f4: addi $sp, $sp, 4              # Deallocate space in the stack
-0ee10004 
-
-# 0x00f8: sub  $t2, $s1, $a0            # $t2 = digit - n
+# 0x0100: sub  $t2, $s1, $a0            # $t2 = digit - n
 18b02000 
 
-# 0x00fc: slt  $t2, $t2, $zero          # Checks if $t2 < 0
+# 0x0104: slt  $t2, $t2, $zero          # Checks if $t2 < 0
 78800000 
 
-# 0x0100: addi $sp, $sp, -4             # Allocate space in the stack
-0ee1fffc 
+# 0x0108: push $s1                      # Storing the 'digit' to the stack
+0ee1fffe cbe10000 
 
-# 0x0104: sw   $s1, 0($sp)              # Storing the 'digit' to the stack
-cbe10000 
+# 0x0110: push $ra                      # Storing the original return address to the stack
+0ee1fffe cfe10000 
 
-# 0x0108: sw   $ra, 2($sp)              # Storing the original return address to the stack
-cfe10002 
-
-# 0x010c: li   $a1, 10                  # $a1 = 10
+# 0x0118: li   $a1, 10                  # $a1 = 10
 0301000a 
 
-# 0x0110: beq  $t2, $zero, exit_print   # If $t2 = 0, then branch to exit_print
-d8010120 
+# 0x011c: beq  $t2, $zero, exit_print   # If $t2 = 0, then branch to exit_print
+d801012c 
 
-# 0x0114: jal  quotient                 # Call quotient to divide n/10
+# 0x0120: jal  quotient                 # Call quotient to divide n/10
 ff03009c 
 
-# 0x0118: add  $a0, $zero, $v0          # Set the parameter for the recursion call to 'digit'
+# 0x0124: add  $a0, $zero, $v0          # Set the parameter for the recursion call to 'digit'
 02001000 
 
-# 0x011c: jal  print_decimal_number     # Recurse call to print_decimal_number
+# 0x0128: jal  print_decimal_number     # Recurse call to print_decimal_number
 ff0300c0 
 
-# 0x0120: lw   $ra, 2($sp)              # Loading the original return address from the stack
-afe10002 
+# 0x012c: pop  $ra                      # Loading the original return address from the stack
+afe10000 0ee10002 
 
-# 0x0124: lw   $s1, 0($sp)              # Loading $s1 from the stack
-abe10000 
+# 0x0134: pop  $s1                      # Loading $s1 from the stack
+abe10000 0ee10002 
 
-# 0x0128: addi $sp, $sp, 4              # Deallocate space in the stack
-0ee10004 
-
-# 0x012c: addi $t0, $s1, 0x30           # $t0 = 0 + digit
+# 0x013c: addi $t0, $s1, 0x30           # $t0 = 0 + digit
 06b10030 
 
-# 0x0130: sb   $t0, 0($t3)              # Print '0 + digit'
+# 0x0140: sb   $t0, 0($t3)              # Print '0 + digit'
 b6910000 
 
-# 0x0134: jr   $ra                      # Return to Caller
+# 0x0144: jr   $ra                      # Return to Caller
 f000f000 
