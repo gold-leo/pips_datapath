@@ -169,6 +169,7 @@ def not_instr(dest, src):
   return nand_instr(dest, src, src)
 
 @assembler.instruction('push #', 2)
+def push_instr(reg):
   return addi_instr('$sp', '$sp', '-2') + sw_instr(reg, '0', '$sp')
 
 @assembler.instruction('pop #', 2)
