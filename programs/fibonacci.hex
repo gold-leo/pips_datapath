@@ -1,0 +1,236 @@
+v2.0 raw
+# This is an automatically-generated PIPS machine code file
+
+# 0x0000: nop                           # First instruction does not execute
+0a00a000 
+
+# 0x0004: li $sp, 0xf800                # Loads a starting address for the stack to $sp
+0e01f800 
+
+# 0x0008: li   $s0, 1                   # Load the number of fib numbers we want to print
+0a010001 
+
+# 0x000c: addi $a0, $s0, 0              # Move i to param
+02a10000 
+
+# 0x0010: jal  fib                      # Call fib(i)
+ff030038 
+
+# 0x0014: add  $a0, $zero, $v0          # Move fib(i) to param
+02001000 
+
+# 0x0018: jal  print_decimal_number     # Call print_decimal_number(result)
+ff0300c0 
+
+# 0x001c: li   $t0, 0x000A              # Load '\n'
+0601000a 
+
+# 0x0020: li   $t1, TERMINAL            # Load TERMINAL
+0701ff10 
+
+# 0x0024: sw   $t0, 0($t1)              # Print '\n'
+c6710000 
+
+# 0x0028: addi $s0, $s0, 1              # Increment i
+0aa10001 
+
+# 0x002c: addi $t0, $s0, -16            # i - 16 (should be zero on break case)
+06a1fff0 
+
+# 0x0030: bne  $t0, $zero, fib_loop     # if (i - 16 != 0), loop
+e601000c 
+
+# 0x0034: j    HALT                     # HALT the program
+f001ff00 
+
+# 0x0038: slti  $t0, $a0, 3             # i < 3
+76210003 
+
+# 0x003c: beq   $t0, $zero, fib_recur   # if (i < 3), recursive case
+d6010048 
+
+# 0x0040: addi  $v0, $zero, 1           # return value to 1
+01010001 
+
+# 0x0044: jr    $ra                     # Return to caller
+f000f000 
+
+# 0x0048: addi  $sp, $sp, -4            # Allocate stack
+0ee1fffc 
+
+# 0x004c: sw    $ra, 0($sp)             # Save return address
+cfe10000 
+
+# 0x0050: sw    $a0, 2($sp)             # Save i
+c2e10002 
+
+# 0x0054: addi  $a0, $a0, -1            # i - 1
+0221ffff 
+
+# 0x0058: jal   fib                     # Recursively call fib(i-1)
+ff030038 
+
+# 0x005c: lw    $a0, 2($sp)             # Load i
+a2e10002 
+
+# 0x0060: sw    $v0, 2($sp)             # Save result of fib(i-1)
+c1e10002 
+
+# 0x0064: addi  $a0, $a0, -2            # i - 2
+0221fffe 
+
+# 0x0068: jal   fib                     # Recursively call fib(i-2)
+ff030038 
+
+# 0x006c: lw    $t0, 2($sp)             # Load result of fib(i-1)
+a6e10002 
+
+# 0x0070: add   $v0, $v0, $t0           # fib(i-1) + fib(i-2)
+01106000 
+
+# 0x0074: lw    $ra, 0($sp)             # Load return address
+afe10000 
+
+# 0x0078: addi  $sp, $sp, 4             # Deallocate stack
+0ee10004 
+
+# 0x007c: jr    $ra                     # Return to caller
+f000f000 
+
+# 0x0080: slt  $t0, $a0, $a1            # a < b
+76203000 
+
+# 0x0084: bne  $t0, $zero, end_rem      # if a < b then:
+e6010094 
+
+# 0x0088: sub  $a0, $a0, $a1            # a = a - b
+12203000 
+
+# 0x008c: slt  $t0, $a0, $a1            # a < b
+76203000 
+
+# 0x0090: beq  $t0, $zero, loop_rem     # if !(a < b), loop
+d6010088 
+
+# 0x0094: add  $v0, $zero, $a0          # Set return to remainder
+01002000 
+
+# 0x0098: jr   $ra                      # Return to caller
+f000f000 
+
+# 0x009c: addi $t1, $zero, 0            # reset t1
+07010000 
+
+# 0x00a0: slt  $t0, $a0, $a1            # a < b
+76203000 
+
+# 0x00a4: bne  $t0, $zero, end_quo      # if a < b then:
+e60100b8 
+
+# 0x00a8: sub  $a0, $a0, $a1            # a = a - b
+12203000 
+
+# 0x00ac: slt  $t0, $a0, $a1            # a < b
+76203000 
+
+# 0x00b0: addi $t1, $t1, 0x1            # counter++
+07710001 
+
+# 0x00b4: beq  $t0, $zero, loop_quo     # if !(a < b), loop
+d60100a8 
+
+# 0x00b8: add  $v0, $zero, $t1          # Set counter to return value
+01007000 
+
+# 0x00bc: jr   $ra                      # Return to caller
+f000f000 
+
+# 0x00c0: li   $t3, TERMINAL            # Loads terminal address to $t3
+0901ff10 
+
+# 0x00c4: bne  $a0, $zero, else_print   # If decimal number is 0, print '0' to terminal, else branch to 'else_print'
+e20100d4 
+
+# 0x00c8: li   $t0, 0x30                # Load ASCII value for '0'
+06010030 
+
+# 0x00cc: sb   $t0, 0($t3)              # Print '0'
+b6910000 
+
+# 0x00d0: jr   $ra
+f000f000 
+
+# 0x00d4: addi $sp, $sp, -4             # Allocate space in the stack
+0ee1fffc 
+
+# 0x00d8: sw   $a0, 0($sp)              # Storing $a0 to the stack
+c2e10000 
+
+# 0x00dc: sw   $ra, 2($sp)              # Storing the original return address to the stack
+cfe10002 
+
+# 0x00e0: li   $a1, 10                  # $a1 = 10
+0301000a 
+
+# 0x00e4: jal  remainder                # Call remainder to calculate the remainder between n and 10
+ff030080 
+
+# 0x00e8: add  $s1, $zero, $v0          # int digit = n % 10
+0b001000 
+
+# 0x00ec: lw   $a0, 0($sp)              # Loading $a0 from the stack
+a2e10000 
+
+# 0x00f0: lw   $ra, 2($sp)              # Loading the original return address from the stack
+afe10002 
+
+# 0x00f4: addi $sp, $sp, 4              # Deallocate space in the stack
+0ee10004 
+
+# 0x00f8: sub  $t2, $s1, $a0            # $t2 = digit - n
+18b02000 
+
+# 0x00fc: slt  $t2, $t2, $zero          # Checks if $t2 < 0
+78800000 
+
+# 0x0100: addi $sp, $sp, -4             # Allocate space in the stack
+0ee1fffc 
+
+# 0x0104: sw   $s1, 0($sp)              # Storing the 'digit' to the stack
+cbe10000 
+
+# 0x0108: sw   $ra, 2($sp)              # Storing the original return address to the stack
+cfe10002 
+
+# 0x010c: li   $a1, 10                  # $a1 = 10
+0301000a 
+
+# 0x0110: beq  $t2, $zero, exit_print   # If $t2 = 0, then branch to exit_print
+d8010120 
+
+# 0x0114: jal  quotient                 # Call quotient to divide n/10
+ff03009c 
+
+# 0x0118: add  $a0, $zero, $v0          # Set the parameter for the recursion call to 'digit'
+02001000 
+
+# 0x011c: jal  print_decimal_number     # Recurse call to print_decimal_number
+ff0300c0 
+
+# 0x0120: lw   $ra, 2($sp)              # Loading the original return address from the stack
+afe10002 
+
+# 0x0124: lw   $s1, 0($sp)              # Loading $s1 from the stack
+abe10000 
+
+# 0x0128: addi $sp, $sp, 4              # Deallocate space in the stack
+0ee10004 
+
+# 0x012c: addi $t0, $s1, 0x30           # $t0 = 0 + digit
+06b10030 
+
+# 0x0130: sb   $t0, 0($t3)              # Print '0 + digit'
+b6910000 
+
+# 0x0134: jr   $ra                      # Return to Caller
+f000f000 

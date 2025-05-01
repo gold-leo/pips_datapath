@@ -1,0 +1,14 @@
+v2.0 raw
+# This is an automatically-generated PIPS machine code file
+
+# 0x0000: li     $t0, 0x001A         #t0 == 0x001A
+0601001a 
+
+# 0x0004: li     $t1, 0x000A         #t1 == 0x000A
+0701000a 
+
+# 0x0008: nand   $t2, $t0, $t1       #t2 == 0xFFF5
+48607000 
+
+# 0x000c: nandi  $t2, $t0, 0x001A    #t2 == 0xFFE5
+4861001a 

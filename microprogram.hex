@@ -1,0 +1,278 @@
+v2.0 raw
+# This file holds the microprogram data that you should load into your
+# datapath's Microprogram ROM. Each row holds a 16-bit value that you will
+# break into control signals to execute an instruction with a given opcode.
+# As you implement additional opcodes you will need to change the hexadecimal
+# values below. Don't forget to add comments that describe the control signals
+# each opcode is configured to send.
+
+# ------------------------------------------------------
+# WriteEnable (Register Write Enable):         Bit 0
+# AInvert     (ALU A Invert):                  Bit 1
+# BInvert     (ALU B Invert):                  Bit 2
+# CIn         (ALU Carry-in):                  Bit 3
+# ALUOp       (ALU Operation):                 Bit 4-6
+# Jump        (Jump Instruction):              Bit 7
+# Branch      (Branch Instruction):            Bit 8
+# Read r0     (r0 = Ra1):                      Bit 9
+# Branch Inv  (BNE Instruction):               Bit 10
+# MemWrite    (Write to Memory):               Bit 11
+# Choose Word (Load/Store Word):               Bit 12
+# MemtoReg    (Memory data to Register):       Bit 13
+# ------------------------------------------------------
+
+# Opcode 0: add
+# WriteEnable | ON
+# AInvert     | OFF
+# BInvert     | OFF
+# CIn         | OFF
+# ALUOp       | 000 
+# Jump        | OFF
+# Branch      | OFF
+# Read r0     | OFF
+# Branch Inv  | OFF
+# MemWrite    | OFF
+# Choose Word | OFF
+# MemtoReg    | OFF
+# 0000 0000 0000 0001
+0001
+
+# Opcode 1: sub
+# WriteEnable | ON
+# AInvert     | OFF
+# BInvert     | ON
+# CIn         | ON
+# ALUOp       | 000
+# Jump        | OFF
+# Branch      | OFF
+# Read r0     | OFF
+# Branch Inv  | OFF
+# MemWrite    | OFF
+# Choose Word | OFF
+# MemtoReg    | OFF
+# 0000 0000 0000 1101
+000D
+
+# Opcode 2: and
+# WriteEnable | ON
+# AInvert     | OFF
+# BInvert     | OFF
+# CIn         | OFF
+# ALUOp       | 001
+# Jump        | OFF
+# Branch      | OFF
+# Read r0     | OFF
+# Branch Inv  | OFF
+# MemWrite    | OFF
+# Choose Word | OFF
+# MemtoReg    | OFF
+# 0000 0000 0001 0001
+0011
+
+# Opcode 3: or
+# WriteEnable | ON
+# AInvert     | OFF
+# BInvert     | OFF
+# CIn         | OFF
+# ALUOp       | 010
+# Jump        | OFF
+# Branch      | OFF
+# Read r0     | OFF
+# Branch Inv  | OFF
+# MemWrite    | OFF
+# Choose Word | OFF
+# MemtoReg    | OFF
+# 0000 0000 0010 0001
+0021
+
+# Opcode 4: nand
+# WriteEnable | ON
+# AInvert     | ON
+# BInvert     | ON
+# CIn         | OFF
+# ALUOp       | 010
+# Jump        | OFF
+# Branch      | OFF
+# Read r0     | OFF
+# Branch Inv  | OFF
+# MemWrite    | OFF
+# Choose Word | OFF
+# MemtoReg    | OFF
+# 0000 0000 0010 0111
+0027
+
+# Opcode 5: nor
+# WriteEnable | ON
+# AInvert     | ON
+# BInvert     | ON
+# CIn         | OFF
+# ALUOp       | 001
+# Jump        | OFF
+# Branch      | OFF
+# Read r0     | OFF
+# Branch Inv  | OFF
+# MemWrite    | OFF
+# Choose Word | OFF
+# MemtoReg    | OFF
+# 0000 0000 0001 0111
+0017
+
+# Opcode 6: xor
+# WriteEnable | ON
+# AInvert     | OFF
+# BInvert     | OFF
+# CIn         | OFF
+# ALUOp       | 011
+# Jump        | OFF
+# Branch      | OFF
+# Read r0     | OFF
+# Branch Inv  | OFF
+# MemWrite    | OFF
+# Choose Word | OFF
+# MemtoReg    | OFF
+# 0000 0000 0011 0001
+0031
+
+# Opcode 7: slt
+# WriteEnable | ON
+# AInvert     | OFF
+# BInvert     | OFF
+# CIn         | OFF
+# ALUOp       | 100
+# Jump        | OFF
+# Branch      | OFF
+# Read r0     | OFF
+# Branch Inv  | OFF
+# MemWrite    | OFF
+# Choose Word | OFF
+# MemtoReg    | OFF
+# 0000 0000 0100 0001
+0041
+
+# Opcode 8: sltu
+# WriteEnable | ON
+# AInvert     | OFF
+# BInvert     | OFF
+# CIn         | OFF
+# ALUOp       | 101
+# Jump        | OFF
+# Branch      | OFF
+# Read r0     | OFF
+# Branch Inv  | OFF
+# MemWrite    | OFF
+# Choose Word | OFF
+# MemtoReg    | OFF
+# 0000 0000 0101 0001
+0051
+
+# Opcode 9: lb
+# WriteEnable | ON
+# AInvert     | OFF
+# BInvert     | OFF
+# CIn         | OFF
+# ALUOp       | 000
+# Jump        | OFF
+# Branch      | OFF
+# Read r0     | OFF
+# Branch Inv  | OFF
+# MemWrite    | OFF
+# Choose Word | OFF
+# MemtoReg    | ON
+# 0010 0000 0000 0001
+2001
+
+# Opcode 10: lw
+# WriteEnable | ON
+# AInvert     | OFF
+# BInvert     | OFF
+# CIn         | OFF
+# ALUOp       | 000
+# Jump        | OFF
+# Branch      | OFF
+# Read r0     | OFF
+# Branch Inv  | OFF
+# MemWrite    | OFF
+# Choose Word | ON
+# MemtoReg    | ON
+# 0011 0000 0000 0001
+3001
+
+# Opcode 11: sb
+# WriteEnable | OFF
+# AInvert     | OFF
+# BInvert     | OFF
+# CIn         | OFF
+# ALUOp       | 000
+# Jump        | OFF
+# Branch      | OFF
+# Read r0     | ON
+# Branch Inv  | OFF
+# MemWrite    | ON
+# Choose Word | OFF
+# MemtoReg    | OFF
+# 0000 1010 0000 0000
+0A00
+
+# Opcode 12: sw
+# WriteEnable | OFF
+# AInvert     | OFF
+# BInvert     | OFF
+# CIn         | OFF
+# ALUOp       | 000
+# Jump        | OFF
+# Branch      | OFF
+# Read r0     | ON
+# Branch Inv  | OFF
+# MemWrite    | ON
+# Choose Word | ON
+# MemtoReg    | OFF
+# 0001 1010 0000 0000
+1A00
+
+# Opcode 13: beq
+# WriteEnable | OFF
+# AInvert     | OFF
+# BInvert     | ON
+# CIn         | ON
+# ALUOp       | 000
+# Jump        | OFF
+# Branch      | ON
+# Read r0     | ON
+# Branch Inv  | OFF
+# MemWrite    | OFF
+# Choose Word | OFF
+# MemtoReg    | OFF
+# 0000 0011 0000 1100
+030C
+
+# Opcode 14: bne
+# WriteEnable | OFF
+# AInvert     | OFF
+# BInvert     | ON
+# CIn         | ON
+# ALUOp       | 000
+# Jump        | OFF
+# Branch      | ON
+# Read r0     | ON
+# Branch Inv  | ON
+# MemWrite    | OFF
+# Choose Word | OFF
+# MemtoReg    | OFF
+# 0000 0111 0000 1100
+070C
+
+# Opcode 15: j
+# WriteEnable | ON
+# AInvert     | OFF
+# BInvert     | OFF
+# CIn         | OFF
+# ALUOp       | 000
+# Jump        | ON
+# Branch      | OFF
+# Read r0     | OFF
+# Branch Inv  | OFF
+# MemWrite    | OFF
+# Choose Word | OFF
+# MemtoReg    | OFF
+# 0000 0000 1000 0001
+0081

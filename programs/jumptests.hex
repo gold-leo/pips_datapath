@@ -1,0 +1,26 @@
+v2.0 raw
+# This is an automatically-generated PIPS machine code file
+
+# 0x0000: nop
+0a00a000 
+
+# 0x0004: li   $t1, 4            # t1 == 4
+07010004 
+
+# 0x0008: jal  INCREMENT         # jump to INCREMENT
+ff030014 
+
+# 0x000c: li   $t2, 1            # t2 == 1 if jump fails
+08010001 
+
+# 0x0010: j   JUMPTEST
+f001001c 
+
+# 0x0014: addi  $t1, $t1, 1      # t1 == 5
+07710001 
+
+# 0x0018: jr    $ra              # Jump to Return Address
+f000f000 
+
+# 0x001c: add $t2, $t2, $t2      # t2 == 2
+08808000 

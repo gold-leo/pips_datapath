@@ -1,0 +1,14 @@
+v2.0 raw
+# This is an automatically-generated PIPS machine code file
+
+# 0x0000: addi $s0, $s0, 3
+0aa10003 
+
+# 0x0004: addi $s1, $s1, 3
+0bb10003 
+
+# 0x0008: add  $s2, $s0, $s1
+0ca0b000 
+
+# 0x000c: j    0xff00
+f001ff00 

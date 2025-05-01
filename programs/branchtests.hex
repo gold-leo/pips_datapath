@@ -1,0 +1,44 @@
+v2.0 raw
+# This is an automatically-generated PIPS machine code file
+
+# 0x0000: nop
+0a00a000 
+
+# 0x0004: li   $t1, 4            # t1 == 4
+07010004 
+
+# 0x0008: li   $t2, 3            # t2 == 3
+08010003 
+
+# 0x000c: beq  $t1, $t2, BNE     # Branch to BEQ if $t1 == $t2 not taken
+d781001c 
+
+# 0x0010: addi $t2, $t2, 1       # t2 == 4 if branch fails
+08810001 
+
+# 0x0014: beq  $t1, $t2, BNE     # Branch to BEQ if $t1 == $t2 taken
+d781001c 
+
+# 0x0018: addi $t2, $t2, 1       # t2 == 5 if branch fails
+08810001 
+
+# 0x001c: li   $t1, 5            # t1 == 5
+07010005 
+
+# 0x0020: li   $t2, 5            # t2 == 5
+08010005 
+
+# 0x0024: bne  $t1, $t2, EXIT    # Branch to EXIT if $t1 != $t2  not taken
+e7810034 
+
+# 0x0028: addi $t2, $t2, 1       # t2 == 6 if branch fails
+08810001 
+
+# 0x002c: bne  $t1, $t2, EXIT    # Branch to EXIT if $t1 != $t2 taken
+e7810034 
+
+# 0x0030: addi $t2, $t2, 1       # t2 == 7 if branch fails
+08810001 
+
+# 0x0034: nop                    # nop to exit
+0a00a000 
