@@ -168,10 +168,25 @@ def sra_instr(dest, op1, immediate):
 def not_instr(dest, src):
   return nand_instr(dest, src, src)
 
-@assembler.instruction('push #', 2) # <- notice the 2 here. This tells the assembler that we will emit two instructions for this rule
-def push_instr(reg):
+@assembler.instruction('push #', 2)
   return addi_instr('$sp', '$sp', '-2') + sw_instr(reg, '0', '$sp')
 
-@assembler.instruction('pop #', 2) # <- notice the 2 here. This tells the assembler that we will emit two instructions for this rule
+@assembler.instruction('pop #', 2)
 def pop_instr(reg):
   return lw_instr(reg, '0', '$sp') + addi_instr('$sp', '$sp', '2')
+
+@assembler.instruction('blt! #, #, #', 2) 
+def blt_instr(op1, op2, branchAddress):
+  return slt_instr(op1, op1, op2) + bne_instr(op1, '$zero', branchAddress)
+
+@assembler.instruction('ble! #, #, #', 2) 
+def ble_instr(op1, op2, branchAddress):
+  return slt_instr(op1, op2, op1) + beq_instr(op1, '$zero', branchAddress)
+
+@assembler.instruction('bgt! #, #, #', 2) 
+def bgt_instr(op1, op2, branchAddress):
+  return slt_instr(op1, op2, op1) + bne_instr(op1, '$zero', branchAddress)
+
+@assembler.instruction('bge! #, #, #', 2) 
+def bge_instr(op1, op2, branchAddress):
+  return slt_instr(op1, op1, op2) + beq_instr(op1, '$zero', branchAddress)
