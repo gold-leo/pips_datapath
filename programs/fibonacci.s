@@ -30,18 +30,17 @@ fib:
   addi  $v0, $zero, 1           # return value to 1
   jr    $ra                     # Return to caller
 fib_recur:
-  addi  $sp, $sp, -4            # Allocate stack
-  sw    $ra, 0($sp)             # Save return address
-  sw    $a0, 2($sp)             # Save i
+  push  $ra                     # Push return address
+  push  $a0                     # Push first param
   addi  $a0, $a0, -1            # i - 1
   jal   fib                     # Recursively call fib(i-1)
-  lw    $a0, 2($sp)             # Load i
-  sw    $v0, 2($sp)             # Save result of fib(i-1)
+  pop   $a0                     # Load first param
+  push  $v0                     # Push fib(i-1)
   addi  $a0, $a0, -2            # i - 2
   jal   fib                     # Recursively call fib(i-2)
-  lw    $t0, 2($sp)             # Load result of fib(i-1)
+  pop   $t0                     # Load fib(i-1)
   add   $v0, $v0, $t0           # fib(i-1) + fib(i-2)
-  lw    $ra, 0($sp)             # Load return address
+  pop   $ra                     # Load return address
   addi  $sp, $sp, 4             # Deallocate stack
   jr    $ra                     # Return to caller
 
