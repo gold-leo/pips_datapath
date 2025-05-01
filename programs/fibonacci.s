@@ -41,7 +41,6 @@ fib_recur:
   pop   $t0                     # Load fib(i-1)
   add   $v0, $v0, $t0           # fib(i-1) + fib(i-2)
   pop   $ra                     # Load return address
-  addi  $sp, $sp, 4             # Deallocate stack
   jr    $ra                     # Return to caller
 
 # Determines the remainder of two numbers. Numbers cannot be negative.

@@ -20,7 +20,7 @@ ff030038
 02001000 
 
 # 0x0018: jal  print_decimal_number     # Call print_decimal_number(result)
-ff0300c0 
+ff0300d0 
 
 # 0x001c: li   $t0, 0x000A              # Load '\n'
 0601000a 
@@ -55,170 +55,164 @@ d6010048
 # 0x0044: jr    $ra                     # Return to caller
 f000f000 
 
-# 0x0048: addi  $sp, $sp, -4            # Allocate stack
-0ee1fffc 
+# 0x0048: push  $ra                     # Push return address
+0ee1fffe cfe10000 
 
-# 0x004c: sw    $ra, 0($sp)             # Save return address
-cfe10000 
-
-# 0x0050: sw    $a0, 2($sp)             # Save i
-c2e10002 
-
-# 0x0054: addi  $a0, $a0, -1            # i - 1
-0221ffff 
-
-# 0x0058: jal   fib                     # Recursively call fib(i-1)
-ff030038 
-
-# 0x005c: lw    $a0, 2($sp)             # Load i
-a2e10002 
-
-# 0x0060: sw    $v0, 2($sp)             # Save result of fib(i-1)
-c1e10002 
-
-# 0x0064: addi  $a0, $a0, -2            # i - 2
-0221fffe 
-
-# 0x0068: jal   fib                     # Recursively call fib(i-2)
-ff030038 
-
-# 0x006c: lw    $t0, 2($sp)             # Load result of fib(i-1)
-a6e10002 
-
-# 0x0070: add   $v0, $v0, $t0           # fib(i-1) + fib(i-2)
-01106000 
-
-# 0x0074: lw    $ra, 0($sp)             # Load return address
-afe10000 
-
-# 0x0078: addi  $sp, $sp, 4             # Deallocate stack
-0ee10004 
-
-# 0x007c: jr    $ra                     # Return to caller
-f000f000 
-
-# 0x0080: slt  $t0, $a0, $a1            # a < b
-76203000 
-
-# 0x0084: bne  $t0, $zero, end_rem      # if a < b then:
-e6010094 
-
-# 0x0088: sub  $a0, $a0, $a1            # a = a - b
-12203000 
-
-# 0x008c: slt  $t0, $a0, $a1            # a < b
-76203000 
-
-# 0x0090: beq  $t0, $zero, loop_rem     # if !(a < b), loop
-d6010088 
-
-# 0x0094: add  $v0, $zero, $a0          # Set return to remainder
-01002000 
-
-# 0x0098: jr   $ra                      # Return to caller
-f000f000 
-
-# 0x009c: addi $t1, $zero, 0            # reset t1
-07010000 
-
-# 0x00a0: slt  $t0, $a0, $a1            # a < b
-76203000 
-
-# 0x00a4: bne  $t0, $zero, end_quo      # if a < b then:
-e60100b8 
-
-# 0x00a8: sub  $a0, $a0, $a1            # a = a - b
-12203000 
-
-# 0x00ac: slt  $t0, $a0, $a1            # a < b
-76203000 
-
-# 0x00b0: addi $t1, $t1, 0x1            # counter++
-07710001 
-
-# 0x00b4: beq  $t0, $zero, loop_quo     # if !(a < b), loop
-d60100a8 
-
-# 0x00b8: add  $v0, $zero, $t1          # Set counter to return value
-01007000 
-
-# 0x00bc: jr   $ra                      # Return to caller
-f000f000 
-
-# 0x00c0: li   $t3, TERMINAL            # Loads terminal address to $t3
-0901ff10 
-
-# 0x00c4: bne  $a0, $zero, else_print   # If decimal number is 0, print '0' to terminal, else branch to 'else_print'
-e20100d4 
-
-# 0x00c8: li   $t0, 0x30                # Load ASCII value for '0'
-06010030 
-
-# 0x00cc: sb   $t0, 0($t3)              # Print '0'
-b6910000 
-
-# 0x00d0: jr   $ra
-f000f000 
-
-# 0x00d4: push  $a0                     # Storing $a0 to the stack
+# 0x0050: push  $a0                     # Push first param
 0ee1fffe c2e10000 
 
-# 0x00dc: push  $ra                     # Storing the original return address to the stack
-0ee1fffe cfe10000 
+# 0x0058: addi  $a0, $a0, -1            # i - 1
+0221ffff 
 
-# 0x00e4: li   $a1, 10                  # $a1 = 10
-0301000a 
+# 0x005c: jal   fib                     # Recursively call fib(i-1)
+ff030038 
 
-# 0x00e8: jal  remainder                # Call remainder to calculate the remainder between n and 10
-ff030080 
-
-# 0x00ec: add  $s1, $zero, $v0          # int digit = n % 10
-0b001000 
-
-# 0x00f0: pop   $ra                     # Loading $a0 from the stack
-afe10000 0ee10002 
-
-# 0x00f8: pop   $a0                     # Loading the original return address from the stack
+# 0x0060: pop   $a0                     # Load first param
 a2e10000 0ee10002 
 
-# 0x0100: sub  $t2, $s1, $a0            # $t2 = digit - n
-18b02000 
+# 0x0068: push  $v0                     # Push fib(i-1)
+0ee1fffe c1e10000 
 
-# 0x0104: slt  $t2, $t2, $zero          # Checks if $t2 < 0
-78800000 
+# 0x0070: addi  $a0, $a0, -2            # i - 2
+0221fffe 
 
-# 0x0108: push $s1                      # Storing the 'digit' to the stack
-0ee1fffe cbe10000 
+# 0x0074: jal   fib                     # Recursively call fib(i-2)
+ff030038 
 
-# 0x0110: push $ra                      # Storing the original return address to the stack
-0ee1fffe cfe10000 
+# 0x0078: pop   $t0                     # Load fib(i-1)
+a6e10000 0ee10002 
 
-# 0x0118: li   $a1, 10                  # $a1 = 10
-0301000a 
+# 0x0080: add   $v0, $v0, $t0           # fib(i-1) + fib(i-2)
+01106000 
 
-# 0x011c: beq  $t2, $zero, exit_print   # If $t2 = 0, then branch to exit_print
-d801012c 
-
-# 0x0120: jal  quotient                 # Call quotient to divide n/10
-ff03009c 
-
-# 0x0124: add  $a0, $zero, $v0          # Set the parameter for the recursion call to 'digit'
-02001000 
-
-# 0x0128: jal  print_decimal_number     # Recurse call to print_decimal_number
-ff0300c0 
-
-# 0x012c: pop  $ra                      # Loading the original return address from the stack
+# 0x0084: pop   $ra                     # Load return address
 afe10000 0ee10002 
 
-# 0x0134: pop  $s1                      # Loading $s1 from the stack
-abe10000 0ee10002 
+# 0x008c: jr    $ra                     # Return to caller
+f000f000 
 
-# 0x013c: addi $t0, $s1, 0x30           # $t0 = 0 + digit
-06b10030 
+# 0x0090: slt  $t0, $a0, $a1            # a < b
+76203000 
 
-# 0x0140: sb   $t0, 0($t3)              # Print '0 + digit'
+# 0x0094: bne  $t0, $zero, end_rem      # if a < b then:
+e60100a4 
+
+# 0x0098: sub  $a0, $a0, $a1            # a = a - b
+12203000 
+
+# 0x009c: slt  $t0, $a0, $a1            # a < b
+76203000 
+
+# 0x00a0: beq  $t0, $zero, loop_rem     # if !(a < b), loop
+d6010098 
+
+# 0x00a4: add  $v0, $zero, $a0          # Set return to remainder
+01002000 
+
+# 0x00a8: jr   $ra                      # Return to caller
+f000f000 
+
+# 0x00ac: addi $t1, $zero, 0            # reset t1
+07010000 
+
+# 0x00b0: slt  $t0, $a0, $a1            # a < b
+76203000 
+
+# 0x00b4: bne  $t0, $zero, end_quo      # if a < b then:
+e60100c8 
+
+# 0x00b8: sub  $a0, $a0, $a1            # a = a - b
+12203000 
+
+# 0x00bc: slt  $t0, $a0, $a1            # a < b
+76203000 
+
+# 0x00c0: addi $t1, $t1, 0x1            # counter++
+07710001 
+
+# 0x00c4: beq  $t0, $zero, loop_quo     # if !(a < b), loop
+d60100b8 
+
+# 0x00c8: add  $v0, $zero, $t1          # Set counter to return value
+01007000 
+
+# 0x00cc: jr   $ra                      # Return to caller
+f000f000 
+
+# 0x00d0: li   $t3, TERMINAL            # Loads terminal address to $t3
+0901ff10 
+
+# 0x00d4: bne  $a0, $zero, else_print   # If decimal number is 0, print '0' to terminal, else branch to 'else_print'
+e20100e4 
+
+# 0x00d8: li   $t0, 0x30                # Load ASCII value for '0'
+06010030 
+
+# 0x00dc: sb   $t0, 0($t3)              # Print '0'
 b6910000 
 
-# 0x0144: jr   $ra                      # Return to Caller
+# 0x00e0: jr   $ra
+f000f000 
+
+# 0x00e4: push  $a0                     # Storing $a0 to the stack
+0ee1fffe c2e10000 
+
+# 0x00ec: push  $ra                     # Storing the original return address to the stack
+0ee1fffe cfe10000 
+
+# 0x00f4: li   $a1, 10                  # $a1 = 10
+0301000a 
+
+# 0x00f8: jal  remainder                # Call remainder to calculate the remainder between n and 10
+ff030090 
+
+# 0x00fc: add  $s1, $zero, $v0          # int digit = n % 10
+0b001000 
+
+# 0x0100: pop   $ra                     # Loading $a0 from the stack
+afe10000 0ee10002 
+
+# 0x0108: pop   $a0                     # Loading the original return address from the stack
+a2e10000 0ee10002 
+
+# 0x0110: sub  $t2, $s1, $a0            # $t2 = digit - n
+18b02000 
+
+# 0x0114: slt  $t2, $t2, $zero          # Checks if $t2 < 0
+78800000 
+
+# 0x0118: push $s1                      # Storing the 'digit' to the stack
+0ee1fffe cbe10000 
+
+# 0x0120: push $ra                      # Storing the original return address to the stack
+0ee1fffe cfe10000 
+
+# 0x0128: li   $a1, 10                  # $a1 = 10
+0301000a 
+
+# 0x012c: beq  $t2, $zero, exit_print   # If $t2 = 0, then branch to exit_print
+d801013c 
+
+# 0x0130: jal  quotient                 # Call quotient to divide n/10
+ff0300ac 
+
+# 0x0134: add  $a0, $zero, $v0          # Set the parameter for the recursion call to 'digit'
+02001000 
+
+# 0x0138: jal  print_decimal_number     # Recurse call to print_decimal_number
+ff0300d0 
+
+# 0x013c: pop  $ra                      # Loading the original return address from the stack
+afe10000 0ee10002 
+
+# 0x0144: pop  $s1                      # Loading $s1 from the stack
+abe10000 0ee10002 
+
+# 0x014c: addi $t0, $s1, 0x30           # $t0 = 0 + digit
+06b10030 
+
+# 0x0150: sb   $t0, 0($t3)              # Print '0 + digit'
+b6910000 
+
+# 0x0154: jr   $ra                      # Return to Caller
 f000f000 
