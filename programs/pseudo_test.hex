@@ -1,0 +1,11 @@
+v2.0 raw
+# This is an automatically-generated PIPS machine code file
+
+# 0x0000: nop
+0a00a000 
+
+# 0x0004: li  $s0, 0x0033
+0a010033 
+
+# 0x0008: not $t0, $s0
+46a0a000 

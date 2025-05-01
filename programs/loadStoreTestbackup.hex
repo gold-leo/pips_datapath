@@ -1,0 +1,47 @@
+v2.0 raw
+# This is an automatically-generated PIPS machine code file
+
+# 0x0000: nop                      # Nop to start the program
+0a00a000 
+
+# 0x0004: li    $sp, 0xf800        # Create starting address for the stack
+0e01f800 
+
+# 0x0008: li    $t0, 0xFFFF        # $t0 = 0xFFFF
+0601ffff 
+
+# 0x000c: li    $t1, 2             # $t1 = 2
+07010002 
+
+# 0x0010: addi  $sp, $sp, -8       # Alocate space in the stack for both integers
+0ee1fff8 
+
+# 0x0014: sw    $t0, 0($sp)        # Store 0xFFFF in the stack
+c6e10000 
+
+# 0x0018: sw    $t1, 4($sp)        # Store 2 in the stack
+c7e10004 
+
+# 0x001c: lw    $t0, 4($sp)        # $t0 = 2
+a6e10004 
+
+# 0x0020: lw    $t1, 0($sp)        # $t1 = 0xFFFF
+a7e10000 
+
+# 0x0024: lb    $t0, 4($sp)        # $t0 = 2
+96e10004 
+
+# 0x0028: lb    $t1, 0($sp)        # $t1 = 0x00FF
+97e10000 
+
+# 0x002c: lw    $t2, 0($sp)        # $t2 = 0xFFFF
+a8e10000 
+
+# 0x0030: sw    $zero, 0($sp)      # Clear stack by setting it to $zero
+c0e10000 
+
+# 0x0034: sw    $zero, 4($sp)      # Clear stack by setting it to $zero
+c0e10004 
+
+# 0x0038: addi  $sp, $sp, 8        # Deallocate the stack
+0ee10008 

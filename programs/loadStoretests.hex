@@ -1,0 +1,83 @@
+v2.0 raw
+# This is an automatically-generated PIPS machine code file
+
+# 0x0000: nop                              # Nop to start program
+0a00a000 
+
+# 0x0004: li    $sp, 0xf800                # Set starting address for the stack
+0e01f800 
+
+# 0x0008: li    $a0, 24                    # Set $a0 = 24
+02010018 
+
+# 0x000c: li    $a1, 16                    # Set $a1 = 16
+03010010 
+
+# 0x0010: jal   gcd                        # Call remainder
+ff030038 
+
+# 0x0014: add   $s2, $zero, $v0            # Store result in $s2; $s2 = 8
+0c001000 
+
+# 0x0018: j     infinite_loop
+f0010018 
+
+# 0x001c: slt  $t0, $a0, $a1              # a < b
+76203000 
+
+# 0x0020: bne  $t0, $zero, end            # if a < b then:
+e6010030 
+
+# 0x0024: sub  $a0, $a0, $a1              # a = a - b
+12203000 
+
+# 0x0028: slt  $t0, $a0, $a1              # a < b
+76203000 
+
+# 0x002c: beq  $t0, $zero, loop_r         # if !(a < b), loop
+d6010024 
+
+# 0x0030: add  $v0, $zero, $a0            # Set return to remainder
+01002000 
+
+# 0x0034: jr   $ra                        # Return to caller
+f000f000 
+
+# 0x0038: bne  $a1, $zero, else           # if (n==0)
+e3010044 
+
+# 0x003c: add  $v0, $zero, $a0            # Set return to m
+01002000 
+
+# 0x0040: jr   $ra                        # Return to caller
+f000f000 
+
+# 0x0044: addi $sp, $sp, -8               # Allocate space on the stack
+0ee1fff8 
+
+# 0x0048: sw   $a1, 0($sp)                # Push n onto the stack
+c3e10000 
+
+# 0x004c: sw   $ra, 4($sp)                # Push return address onto the stack
+cfe10004 
+
+# 0x0050: jal  remainder                  # Call remainder
+ff03001c 
+
+# 0x0054: lw   $a0, 0($sp)                # Load n from stack into first param
+a2e10000 
+
+# 0x0058: add  $a1, $zero, $v0            # Set remainder() to second param
+03001000 
+
+# 0x005c: jal  gcd                        # Call gcd
+ff030038 
+
+# 0x0060: lw   $ra, 4($sp)                # Load return address from stack
+afe10004 
+
+# 0x0064: addi $sp, $sp, 8                # Deallocate stack
+0ee10008 
+
+# 0x0068: jr   $ra                        # Return to caller
+f000f000 

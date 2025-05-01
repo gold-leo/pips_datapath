@@ -1,0 +1,32 @@
+v2.0 raw
+# This is an automatically-generated PIPS machine code file
+
+# 0x0000: li   $s0, 4            #s0 == 4
+0a010004 
+
+# 0x0004: li   $s1, -1           #s1 == -1
+0b01ffff 
+
+# 0x0008: slt  $t0, $s1, $s0     #t0 == 1
+76b0a000 
+
+# 0x000c: slt  $t1, $s0, $s1     #t1 == 0
+77a0b000 
+
+# 0x0010: slti $t2, $s0, -1      #t2 == 0
+78a1ffff 
+
+# 0x0014: slti $t3, $s0, 5       #t3 == 1
+79a10005 
+
+# 0x0018: sltu   $t0, $s1, $s0   #t0 == 0
+86b0a000 
+
+# 0x001c: sltu   $t1, $s0, $s1   #t1 == 1
+87a0b000 
+
+# 0x0020: sltiu  $t2, $s0, -1    #t2 == 1
+88a1ffff 
+
+# 0x0024: sltiu  $t3, $s1, 3     #t3 == 0
+89b10003 
