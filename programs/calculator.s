@@ -7,37 +7,41 @@
 
 nop
 main:
-  li    $s0, TERM             # Address of the terminal output for memory-mapped I/O
-  li    $s1, KBD              # Address of the keyboard input for memory-mapped I/O
+  li   $s0, TERM                # Address of the terminal output for memory-mapped I/O
+  li   $s1, KBD                 # Address of the keyboard input for memory-mapped I/O
   
-a_loop:
-  li    $s2, '\n'             # Load a newline constant
-  lb    $t0, 0($s1)           # Load a character from the keyboard
-  beq   $t0, $s2, end         # If the character was the newline, stop looping
-  beq   $t0, $zero, a_loop    # If it is the null terminator, start over
-  subi  $t0, $t0, 48          # Convert to decimal
-b_loop:
-  lb    $t1, 0($s1)           # Load a character from the keyboard
-  beq   $t1, $zero, b_loop    # If it is the null terminator, start over
-  beq   $t1, $s2, print       # If the character was the newline, stop looping
-c_loop:
-  lb    $t1, 0($s1)           # Load a character from the keyboard
-  beq   $t1, $zero, c_loop    # If it is the null terminator, start over
-  subi  $t1, $t1, 48          # Convert to decimal
-  add   $t0, $t0, $t1         # sum += input val
+# Takes an equation from the keyboard and calculates the sum
+# No Preconditions
+char1_l:
+  li   $s2, '\n'                # Load a newline constant
+  lb   $t0, 0($s1)              # Load a character from the keyboard
+  beq  $t0, $s2, end            # If the character was the newline, stop looping
+  beq  $t0, $zero, char1_l      # If it is the null terminator, start over
+  subi $t0, $t0, 48             # Convert to decimal
+  
+char2_l:
+  lb   $t1, 0($s1)              # Load a character from the keyboard
+  beq  $t1, $zero, char2_l      # If it is the null terminator, start over
+  beq  $t1, $s2, print          # If the character was the newline, stop looping
 
-  j     b_loop                # Restart waiting for a new add
+char3_l:
+  lb   $t1, 0($s1)              # Load a character from the keyboard
+  beq  $t1, $zero, char3_l      # If it is the null terminator, start over
+  subi $t1, $t1, 48             # Convert to decimal
+  add  $t0, $t0, $t1            # sum += input val
+  j    char2_l                  # Restart waiting for a new add
 
 print:
-  add   $a0, $t0, $zero       # Set parameter
-  jal   print_decimal_number  # Call 'print_decimal_number' to print sum
-  j     main                  # Restart
+  add  $a0, $t0, $zero          # Set parameter
+  jal  print_decimal_number     # Call 'print_decimal_number' to print sum
+  j    main                     # Restart
 
 end:
-  j     HALT                  # Enable halt pin and stop the PC incrementing  lb  $t0, 0($s1)
+  j    HALT                     # Enable halt pin and stop the PC incrementing  lb  $t0, 0($s1)
 
-# Determines the remainder of two numbers. Numbers cannot be negative.
-# Returns a % b
+# Determines the remainder of two numbers. 
+# Preconditions: Numbers cannot be negative.
+# Returns: $a0 % $a1 into $v0
 remainder:
   slt  $t0, $a0, $a1            # a < b
   bne  $t0, $zero, end_rem      # if a < b then:
@@ -49,8 +53,9 @@ end_rem:
   add  $v0, $zero, $a0          # Set return to remainder
   jr   $ra                      # Return to caller
 
-# Determines the quotient of two numbers. Numbers cannot be negative.
-# Returns a / b
+# Determines the quotient of two numbers. 
+# Preconditions: Numbers cannot be negative.
+# Returns $a0 / $a1 into $v0
 quotient:
   addi $t1, $zero, 0            # reset t1
   slt  $t0, $a0, $a1            # a < b
@@ -77,8 +82,8 @@ print_decimal_number:
 
 else_print: 
   # Sets up and loads the stack
-  push  $a0                     # Storing $a0 to the stack
-  push  $ra                     # Storing the original return address to the stack
+  push $a0                      # Storing $a0 to the stack
+  push $ra                      # Storing the original return address to the stack
 
   # Sets up $a1 as a parameter for remainder and then calls remainder, storing the result in $s1
   li   $a1, 10                  # $a1 = 10
@@ -86,8 +91,8 @@ else_print:
   add  $s1, $zero, $v0          # int digit = n % 10
 
   # Retrieves information from the stack and deallocates the space
-  pop   $ra                     # Loading $a0 from the stack
-  pop   $a0                     # Loading the original return address from the stack
+  pop  $ra                      # Loading $a0 from the stack
+  pop  $a0                      # Loading the original return address from the stack
 
   # Set up to check if n > digit 
   sub  $t2, $s1, $a0            # $t2 = digit - n
