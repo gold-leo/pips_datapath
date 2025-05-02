@@ -1,0 +1,44 @@
+v2.0 raw
+# This is an automatically-generated PIPS machine code file
+
+# 0x0000: nop
+0a00a000 
+
+# 0x0004: li    $s0, TERM            # Address of the terminal output for memory-mapped I/O
+0a01ff10 
+
+# 0x0008: li    $s1, KBD             # Address of the keyboard input for memory-mapped I/O
+0b01ff20 
+
+# 0x000c: lb    $t0, 0($s1)           # Load a character from the keyboard
+96b10000 
+
+# 0x0010: beq   $t0, $zero, loop      # If it is the null terminator, start over
+d601000c 
+
+# 0x0014: subi  $t1, $t0, 97          # Subtract for ASCII comparison
+17610061 
+
+# 0x0018: sltiu $t2, $t1, 26          # Compare if $t1 is a lowercase letter
+8871001a 
+
+# 0x001c: beq   $t2, $zero, skip      # If $t1 is lowercase, don't make uppercase
+d8010024 
+
+# 0x0020: subi  $t0, $t0, 32          # Convert to uppercase
+16610020 
+
+# 0x0024: sb    $t0, 0($s0)           # Write the character to the terminal
+b6a10000 
+
+# 0x0028: li    $t1, '\n'             # Load a newline constant
+0701000a 
+
+# 0x002c: beq   $t0, $t1, end         # If the character was the newline, stop looping
+d6710034 
+
+# 0x0030: j     loop                  # Start over
+f001000c 
+
+# 0x0034: j     HALT                  # Enable halt pin and stop the PC incrementing  lb  $t0, 0($s1)
+f001ff00 
