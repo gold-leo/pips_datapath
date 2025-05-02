@@ -7,8 +7,8 @@
 
 nop
 main:
-  li    $s0, TERM            # Address of the terminal output for memory-mapped I/O
-  li    $s1, KBD             # Address of the keyboard input for memory-mapped I/O
+  li    $s0, TERM             # Address of the terminal output for memory-mapped I/O
+  li    $s1, KBD              # Address of the keyboard input for memory-mapped I/O
 
 loop:
   lb    $t0, 0($s1)           # Load a character from the keyboard
