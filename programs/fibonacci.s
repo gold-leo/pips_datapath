@@ -23,7 +23,8 @@ fib_loop:
   j    HALT                     # HALT the program
 
 
-# Determines the ith fibonacci number. $a0 > 0
+# Determines the ith fibonacci number. 
+# Preconditions: $a0 > 0
 fib:
   slti  $t0, $a0, 3             # i < 3
   beq   $t0, $zero, fib_recur   # if (i < 3), recursive case
@@ -43,8 +44,9 @@ fib_recur:
   pop   $ra                     # Load return address
   jr    $ra                     # Return to caller
 
-# Determines the remainder of two numbers. Numbers cannot be negative.
-# Returns a % b
+# Determines the remainder of two numbers. 
+# Preconditions: Numbers cannot be negative.
+# Returns: $a0 % $a1 into $v0
 remainder:
   slt  $t0, $a0, $a1            # a < b
   bne  $t0, $zero, end_rem      # if a < b then:
@@ -56,8 +58,9 @@ end_rem:
   add  $v0, $zero, $a0          # Set return to remainder
   jr   $ra                      # Return to caller
 
-# Determines the quotient of two numbers. Numbers cannot be negative.
-# Returns a / b
+# Determines the quotient of two numbers. 
+# Preconditions: Numbers cannot be negative.
+# Returns $a0 / $a1 into $v0
 quotient:
   addi $t1, $zero, 0            # reset t1
   slt  $t0, $a0, $a1            # a < b

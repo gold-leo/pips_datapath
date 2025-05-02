@@ -4,61 +4,61 @@ v2.0 raw
 # 0x0000: nop
 0a00a000 
 
-# 0x0004: li    $s0, TERM             # Address of the terminal output for memory-mapped I/O
+# 0x0004: li   $s0, TERM                # Address of the terminal output for memory-mapped I/O
 0a01ff10 
 
-# 0x0008: li    $s1, KBD              # Address of the keyboard input for memory-mapped I/O
+# 0x0008: li   $s1, KBD                 # Address of the keyboard input for memory-mapped I/O
 0b01ff20 
 
-# 0x000c: li    $s2, '\n'             # Load a newline constant
+# 0x000c: li   $s2, '\n'                # Load a newline constant
 0c01000a 
 
-# 0x0010: lb    $t0, 0($s1)           # Load a character from the keyboard
+# 0x0010: lb   $t0, 0($s1)              # Load a character from the keyboard
 96b10000 
 
-# 0x0014: beq   $t0, $s2, end         # If the character was the newline, stop looping
+# 0x0014: beq  $t0, $s2, end            # If the character was the newline, stop looping
 d6c1004c 
 
-# 0x0018: beq   $t0, $zero, a_loop    # If it is the null terminator, start over
+# 0x0018: beq  $t0, $zero, char1_l      # If it is the null terminator, start over
 d601000c 
 
-# 0x001c: subi  $t0, $t0, 48          # Convert to decimal
+# 0x001c: subi $t0, $t0, 48             # Convert to decimal
 16610030 
 
-# 0x0020: lb    $t1, 0($s1)           # Load a character from the keyboard
+# 0x0020: lb   $t1, 0($s1)              # Load a character from the keyboard
 97b10000 
 
-# 0x0024: beq   $t1, $zero, b_loop    # If it is the null terminator, start over
+# 0x0024: beq  $t1, $zero, char2_l      # If it is the null terminator, start over
 d7010020 
 
-# 0x0028: beq   $t1, $s2, print       # If the character was the newline, stop looping
+# 0x0028: beq  $t1, $s2, print          # If the character was the newline, stop looping
 d7c10040 
 
-# 0x002c: lb    $t1, 0($s1)           # Load a character from the keyboard
+# 0x002c: lb   $t1, 0($s1)              # Load a character from the keyboard
 97b10000 
 
-# 0x0030: beq   $t1, $zero, c_loop    # If it is the null terminator, start over
+# 0x0030: beq  $t1, $zero, char3_l      # If it is the null terminator, start over
 d701002c 
 
-# 0x0034: subi  $t1, $t1, 48          # Convert to decimal
+# 0x0034: subi $t1, $t1, 48             # Convert to decimal
 17710030 
 
-# 0x0038: add   $t0, $t0, $t1         # sum += input val
+# 0x0038: add  $t0, $t0, $t1            # sum += input val
 06607000 
 
-# 0x003c: j     b_loop                # Restart waiting for a new add
+# 0x003c: j    char2_l                  # Restart waiting for a new add
 f0010020 
 
-# 0x0040: add   $a0, $t0, $zero       # Set parameter
+# 0x0040: add  $a0, $t0, $zero          # Set parameter
 02600000 
 
-# 0x0044: jal   print_decimal_number
+# 0x0044: jal  print_decimal_number     # Call 'print_decimal_number' to print sum
 ff030090 
 
-# 0x0048: j     main                # Restart
+# 0x0048: j    main                     # Restart
 f0010004 
 
-# 0x004c: j     HALT                  # Enable halt pin and stop the PC incrementing  lb  $t0, 0($s1)
+# 0x004c: j    HALT                     # Enable halt pin and stop the PC incrementing  lb  $t0, 0($s1)
 f001ff00 
 
 # 0x0050: slt  $t0, $a0, $a1            # a < b
@@ -124,10 +124,10 @@ b6910000
 # 0x00a0: jr   $ra
 f000f000 
 
-# 0x00a4: push  $a0                     # Storing $a0 to the stack
+# 0x00a4: push $a0                      # Storing $a0 to the stack
 0ee1fffe c2e10000 
 
-# 0x00ac: push  $ra                     # Storing the original return address to the stack
+# 0x00ac: push $ra                      # Storing the original return address to the stack
 0ee1fffe cfe10000 
 
 # 0x00b4: li   $a1, 10                  # $a1 = 10
@@ -139,10 +139,10 @@ ff030050
 # 0x00bc: add  $s1, $zero, $v0          # int digit = n % 10
 0b001000 
 
-# 0x00c0: pop   $ra                     # Loading $a0 from the stack
+# 0x00c0: pop  $ra                      # Loading $a0 from the stack
 afe10000 0ee10002 
 
-# 0x00c8: pop   $a0                     # Loading the original return address from the stack
+# 0x00c8: pop  $a0                      # Loading the original return address from the stack
 a2e10000 0ee10002 
 
 # 0x00d0: sub  $t2, $s1, $a0            # $t2 = digit - n

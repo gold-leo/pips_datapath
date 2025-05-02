@@ -1,4 +1,4 @@
-Lab: Build Datapath II
+Lab: Build Datapath III
  
 Academic honesty certification:
   Written/online sources used:
