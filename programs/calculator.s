@@ -18,22 +18,20 @@ a_loop:
   subi  $t0, $t0, 48          # Convert to decimal
 b_loop:
   lb    $t1, 0($s1)           # Load a character from the keyboard
-  beq   $t0, $zero, b_loop    # If it is the null terminator, start over
-  beq   $t0, $s2, print       # If the character was the newline, stop looping
+  beq   $t1, $zero, b_loop    # If it is the null terminator, start over
+  beq   $t1, $s2, print       # If the character was the newline, stop looping
 c_loop:
   lb    $t1, 0($s1)           # Load a character from the keyboard
-  beq   $t0, $zero, c_loop    # If it is the null terminator, start over
+  beq   $t1, $zero, c_loop    # If it is the null terminator, start over
   subi  $t1, $t1, 48          # Convert to decimal
   add   $t0, $t0, $t1         # sum += input val
 
   j     b_loop                # Restart waiting for a new add
 
 print:
-  # add   $a0, $t0, $zero       # Set parameter
-  # subi  $a0, $a0, 48          # Convert to char
-  li    $a0, 0x41              
-  sw    $a0, 0($s0)           # Print to terminal
-  j     a_loop                # Restart
+  add   $a0, $t0, $zero       # Set parameter
+  jal   print_decimal_number  # Call 'print_decimal_number' to print sum
+  j     main                  # Restart
 
 end:
   j     HALT                  # Enable halt pin and stop the PC incrementing  lb  $t0, 0($s1)
