@@ -1,0 +1,59 @@
+v2.0 raw
+# This is an automatically-generated PIPS machine code file
+
+# 0x0000: nop
+0a00a000 
+
+# 0x0004: li    $s0, TERM             # Address of the terminal output for memory-mapped I/O
+0a01ff10 
+
+# 0x0008: li    $s1, KBD              # Address of the keyboard input for memory-mapped I/O
+0b01ff20 
+
+# 0x000c: li    $sp, STACK_TOP        # Predefined initial stack address
+0e01f800 
+
+# 0x0010: jal   take_string
+ff030018 
+
+# 0x0014: j     HALT                  # Enable halt pin and stop the PC incrementing
+f001ff00 
+
+# 0x0018: lb    $t0, 0($s1)           # Load a character from the keyboard
+96b10000 
+
+# 0x001c: li    $t1, '\n'             # Load a newline constant
+0701000a 
+
+# 0x0020: beq   $t0, $zero, take_string  # If it is the null terminator, start over
+d6010018 
+
+# 0x0024: beq   $t0, $t1, string_rev  # If the character was the newline, branch to 'string_rev'
+d6710038 
+
+# 0x0028: addi  $sp, $sp, -4          # Allocate stack
+0ee1fffc 
+
+# 0x002c: sw    $ra, 0($sp)           # Store return address to stack
+cfe10000 
+
+# 0x0030: sb    $t0, 2($sp)           # Write the character to the stack
+b6e10002 
+
+# 0x0034: jal   take_string           # Start over
+ff030018 
+
+# 0x0038: lb    $t0, 2($sp)           # Retrieves return address from the stack
+96e10002 
+
+# 0x003c: lw    $ra, 0($sp)           # Retrieves most recent character from the stack
+afe10000 
+
+# 0x0040: sb    $t0, 0($s0)           # Write the character to the terminal
+b6a10000 
+
+# 0x0044: addi  $sp, $sp, 4           # Deallocate stack
+0ee10004 
+
+# 0x0048: jr    $ra                   # Return to caller
+f000f000 
